@@ -17,3 +17,4 @@ const receiveMessage = async () => {
     }
   })
 }
+receiveMessage()
