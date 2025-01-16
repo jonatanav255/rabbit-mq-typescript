@@ -1,0 +1,40 @@
+# Node.js dependencies
+/node_modules
+
+# Output directory for compiled code
+/dist
+
+# TypeScript files
+*.tsbuildinfo  # TypeScript incremental compilation files
+
+# Logs
+npm-debug.log*  # npm debug log files
+yarn-debug.log* # Yarn debug log files
+yarn-error.log*
+
+# Environment variables
+.env            # Environment configuration files
+.env.local      # Local overrides
+
+# Editor and IDE settings
+.vscode/        # Visual Studio Code settings
+.idea/          # JetBrains IDE settings
+.DS_Store       # macOS Finder metadata
+Thumbs.db       # Windows thumbnail cache
+
+# OS-generated files
+*.swp           # Swap files (e.g., Vim)
+*.lock          # Lock files (e.g., macOS)
+*.log           # Log files
+
+# Package lock files (if you prefer not to commit these)
+/package-lock.json
+/pnpm-lock.yaml
+/yarn.lock
+
+# Optional: Test Coverage
+/coverage       # Output of coverage tools like Jest
+
+# Optional: Temporary Files
+/tmp            # Temporary files or directories
+*.tmp           # Temporary files
