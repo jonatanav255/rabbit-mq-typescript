@@ -11,7 +11,14 @@ const connectToRabbitMQ = async () => {
     const exchangeName = 'chapter2-example'
 
     await channel.assertExchange(exchangeName, 'direct', { durable: true })
-    console.log(`Exchange '${exchangeName}' declared`);
+    console.log(`Exchange '${exchangeName}' declared`)
+
+    const queueName = 'example';
+
+    await channel.assertQueue(queueName, {durable: true})
+    console.log(`Queue '${queueName}' declared`)
+
+    
   } catch {}
 }
 connectToRabbitMQ()
