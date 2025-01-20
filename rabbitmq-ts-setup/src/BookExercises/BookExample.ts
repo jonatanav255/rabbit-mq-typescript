@@ -13,12 +13,23 @@ const connectToRabbitMQ = async () => {
     await channel.assertExchange(exchangeName, 'direct', { durable: true })
     console.log(`Exchange '${exchangeName}' declared`)
 
-    const queueName = 'example';
+    const queueName = 'example'
 
-    await channel.assertQueue(queueName, {durable: true})
+    await channel.assertQueue(queueName, { durable: true })
     console.log(`Queue '${queueName}' declared`)
 
-    
-  } catch {}
+    const routingKey = 'example-routing-key'
+    await channel.bindQueue(queueName, exchangeName, routingKey)
+    console.log(
+      `Queue '${queueName}' bound to exchange '${exchangeName}' with routing key '${routingKey}'`
+    )
+
+    setTimeout(() => {
+      connection.close()
+      console.log('Connection closed')
+    }, 500)
+  } catch (error) {
+    console.error('Error connecting to RabbitMQ:', error)
+  }
 }
 connectToRabbitMQ()
