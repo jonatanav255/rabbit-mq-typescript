@@ -9,6 +9,10 @@ const sendTasks = async () => {
 
     const channel = await connection.createChannel()
 
+    const queueName = 'work_queue'
+    await channel.assertQueue(queueName, {durable: true})
+    console.log(`Queue '${queueName}' declared`)
+
   } catch (error) {}
 }
 
