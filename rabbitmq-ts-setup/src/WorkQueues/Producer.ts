@@ -19,7 +19,14 @@ const sendTasks = async () => {
 
       console.log(`[x] Sent: ${task}`)
     }
-  } catch (error) {}
+
+    setTimeout(() => {
+      connection.close()
+      console.log('Connection closed')
+    }, 500)
+  } catch (error) {
+    console.error('Error sending tasks:', error)
+  }
 }
 
 sendTasks()
