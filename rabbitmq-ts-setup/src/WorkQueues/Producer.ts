@@ -10,9 +10,15 @@ const sendTasks = async () => {
     const channel = await connection.createChannel()
 
     const queueName = 'work_queue'
-    await channel.assertQueue(queueName, {durable: true})
+    await channel.assertQueue(queueName, { durable: true })
     console.log(`Queue '${queueName}' declared`)
 
+    for (let i = 0; i < 10; i++) {
+      const task = `Task ${i}`
+      channel.sendToQueue(queueName, Buffer.from(task), { persistent: true })
+
+      console.log(`[x] Sent: ${task}`)
+    }
   } catch (error) {}
 }
 
