@@ -6,6 +6,10 @@ const sendTasks = async () => {
 
     const connection = await amqp.connect(url)
     console.log('Connected to RabbitMQ')
-    
+
+    const channel = await connection.createChannel()
+
   } catch (error) {}
 }
+
+sendTasks()
