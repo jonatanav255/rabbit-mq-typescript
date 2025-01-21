@@ -6,6 +6,9 @@ const consumeTask = async (consumerName: string) => {
     const connection = await amqp.connect(url)
 
     console.log(`[${consumerName}] Connected to Rabbit MQ`)
+
+    const channel = await connection.createChannel()
+
     
   } catch (error) {}
 }
