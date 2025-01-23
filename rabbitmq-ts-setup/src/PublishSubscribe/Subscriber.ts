@@ -1,27 +1,37 @@
-import amqp from 'amqplib'
+import amqp, { Channel, Connection, ConsumeMessage } from 'amqplib';
 
-async function consumeMessages() {
-    const connection = await amqp.connect('amqp://localhost');
-    const channel = await connection.createChannel();
-    const exchange = 'logs';
+async function consumeMessages(): Promise<void> {
+    try {
+        // Step 1: Establish connection to RabbitMQ server
+        const connection: Connection = await amqp.connect('amqp://localhost');
+        const channel: Channel = await connection.createChannel();
 
-    // Declare the same exchange as the publisher
-    await channel.assertExchange(exchange, 'fanout', { durable: false });
+        const exchange = 'logs';
 
-    // Create a temporary queue (exclusive: true means the queue will be deleted when the connection closes)
-    const { queue } = await channel.assertQueue('', { exclusive: true });
+        // Step 2: Declare the same exchange as the publisher (type: 'fanout')
+        await channel.assertExchange(exchange, 'fanout', { durable: false });
 
-    // Bind the queue to the exchange
-    channel.bindQueue(queue, exchange, '');
+        // Step 3: Create a temporary queue (exclusive: true)
+        const { queue } = await channel.assertQueue('', { exclusive: true });
 
-    console.log('[*] Waiting for messages. To exit, press CTRL+C');
+        // Step 4: Bind the temporary queue to the exchange
+        await channel.bindQueue(queue, exchange, '');
 
-    // Consume messages from the queue
-    channel.consume(queue, (msg) => {
-        if (msg.content) {
-            console.log(`[x] Received: ${msg.content.toString()}`);
-        }
-    }, { noAck: true });
+        console.log('[*] Waiting for messages. To exit, press CTRL+C');
+
+        // Step 5: Consume messages from the queue
+        channel.consume(
+            queue,
+            (msg: ConsumeMessage | null) => {
+                if (msg) {
+                    console.log(`[x] Received: ${msg.content.toString()}`);
+                }
+            },
+            { noAck: true } // Automatically acknowledge messages
+        );
+    } catch (error) {
+        console.error('Error consuming messages:', error);
+    }
 }
 
 consumeMessages();
