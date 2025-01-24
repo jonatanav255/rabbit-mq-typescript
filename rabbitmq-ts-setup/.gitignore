@@ -38,3 +38,6 @@ Thumbs.db       # Windows thumbnail cache
 # Optional: Temporary Files
 /tmp            # Temporary files or directories
 *.tmp           # Temporary files
+
+rabbitmq-ts-setup/.DS_Store
+.DS_Store
